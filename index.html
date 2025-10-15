@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Molino - Cabañas y Almacén Regional</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos básicos y variables */
+        :root {
+            --color-principal: #8B4513; /* Marrón tierra/madera */
+            --color-secundario: #D2B48C; /* Beige claro/arena (Para fondos de recuadros) */
+            --color-acento: #4CAF50; /* Tonalidad verde suave (naturaleza) */
+            --color-texto: #333333;
+            --color-claro: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: var(--color-texto);
+            line-height: 1.6;
+            background-color: #eaeaea; 
+            scroll-behavior: smooth;
+            overflow-x: hidden; 
+        }
+
+        /* ********************************************************** */
+        /* HEADER y NAV */
+        /* ********************************************************** */
+        header {
+            background-color: transparent; 
+            padding: 20px 0;
+            position: fixed; 
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 2000; 
+            transition: background-color 0.4s ease, padding 0.4s ease;
+        }
+        
+        header.scrolled {
+            background-color: rgba(139, 69, 19, 0.95); 
+            padding: 10px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        nav {
+            max-width: 1400px; 
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+            padding: 0 40px; 
+        }
+
+        /* AJUSTE LOGO: Se oculta la imagen para evitar conflictos, dejando solo el texto. */
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        .logo img { 
+            display: none; /* Oculta la imagen de logo que no está cargando */
+        }
+
+        .logo a {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5em; 
+            color: var(--color-claro);
+            text-decoration: none;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9);
+            margin: 0; 
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            transition: all 0.3s ease-out;
+        }
+
+        .nav-links li {
+            margin-left: 25px; 
+        }
+        
+        .nav-links a {
+            color: var(--color-claro);
+            text-decoration: none;
+            font-weight: 400;
+            transition: color 0.3s;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); 
+            padding: 5px 0;
+        }
+        
+        .nav-links a:hover:not(.btn-principal) {
+            color: var(--color-secundario);
+        }
+        
+        /* Estilos del Botón Principal (Header) */
+        .btn-principal {
+            background-color: var(--color-acento) !important; 
+            color: var(--color-claro) !important;
+            padding: 8px 20px !important;
+            border-radius: 5px;
+            text-transform: uppercase;
+            font-weight: 700 !important;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease;
+            margin-left: 20px;
+        }
+        
+        .btn-principal:hover {
+            background-color: #3e8e41 !important; 
+            color: var(--color-claro) !important;
+        }
+
+        /* Ícono de Hamburguesa */
+        .menu-toggle {
+            display: none; 
+            color: var(--color-claro);
+            font-size: 1.5em;
+            cursor: pointer;
+            z-index: 3000;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+        }
+        
+        /* ********************************************************** */
+        /* Sección Hero (IMÁGENES CUBREN 100% ANCHO Y ALTO) */
+        /* ********************************************************** */
+        #hero {
+            position: relative;
+            height: 100vh;
+            width: 100%; 
+            max-width: none; 
+            margin: 0; 
+            overflow: hidden; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--color-claro);
+            padding: 0;
+        }
+        
+        .slideshow-container, .mySlides, .mySlides img {
+            width: 100%;
+            height: 100%;
+            position: absolute; 
+            top: 0;
+            left: 0;
+        }
+        
+        .mySlides img {
+            object-fit: cover; /* Esto asegura que la imagen cubra todo el espacio sin distorsionarse */
+            filter: brightness(0.7); 
+        }
+        
+        .hero-overlay { 
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.1); 
+            z-index: 50;
+        }
+        
+        .hero-content {
+            z-index: 100; 
+            max-width: 90%; 
+            margin-top: 50px; 
+        }
+        .hero-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 4.8em; 
+            margin-bottom: 20px; 
+            text-shadow: 2px 2px 8px rgba(0,0,0,1);
+        }
+        .hero-content p {
+            font-size: 1.3em;
+            font-weight: 300;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+        }
+        
+        /* Estilos del Botón Hero */
+        .btn-hero {
+            display: inline-block;
+            background-color: var(--color-principal); 
+            color: var(--color-claro);
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        
+        .btn-hero:hover {
+            background-color: #A0522D; 
+            transform: translateY(-2px);
+        }
+        
+        /* ********************************************************** */
+        /* Contenido General y RECUADROS */
+        /* ********************************************************** */
+        section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Título de Sección */
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3em;
+            text-align: center;
+            color: var(--color-principal);
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--color-acento);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        /* Contenedor principal para recuadro */
+        .section-container {
+            background-color: var(--color-secundario);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            margin-top: 20px;
+        }
+        
+        /* Contenedores de Texto de Políticas */
+        .policy-content h3 {
+            color: var(--color-principal);
+            margin-top: 25px;
+            margin-bottom: 10px;
+            font-size: 1.5em;
+            border-bottom: 1px solid rgba(139, 69, 19, 0.3);
+            padding-bottom: 5px;
+        }
+        .policy-content p, .policy-content ul {
+            margin-bottom: 15px;
+            color: var(--color-texto);
+        }
+        .policy-content ul {
+            padding-left: 20px;
+            list-style-type: disc;
+        }
+        
+        /* Cuadrícula de Imágenes */
+        .almacen-photos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+            gap: 15px;
+            max-width: 100%; 
+            margin: 40px auto;
+            padding: 0;
+        }
+        
+        .almacen-photos img {
+            width: 100%;
+            height: 250px; 
+            object-fit: cover; 
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            cursor: zoom-in;
+            transition: transform 0.3s ease;
+        }
+        
+        .almacen-photos img:hover {
+            transform: scale(1.02);
+        }
+
+        /* Contenedor de Video */
+        .video-container {
+            margin-top: 40px;
+            margin-bottom: 40px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            max-width: 700px; 
+            margin-left: auto;
+            margin-right: auto;
+            aspect-ratio: 16 / 9; 
+        }
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        
+        /* Estilos para las Listas de Servicios */
+        .service-list {
+            display: flex;
+            justify-content: space-around;
+            gap: 30px;
+            margin-top: 30px;
+            flex-wrap: wrap; 
+        }
+        
+        .service-group {
+            flex-basis: 45%; 
+            min-width: 300px; 
+        }
+        
+        .service-group h3 {
+            color: var(--color-principal);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--color-acento);
+            padding-bottom: 5px;
+        }
+        
+        .service-group ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr 1fr; 
+            gap: 10px;
+            padding: 0;
+        }
+        
+        .service-group ul li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 5px;
+            font-weight: 400;
+        }
+        
+        .service-group ul li::before {
+            content: "\f00c"; 
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            color: var(--color-acento);
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        
+        /* Contenedor del Mapa */
+        .map-container {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--color-principal);
+            color: var(--color-claro);
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.9em;
+        }
+        
+        footer a {
+            color: var(--color-secundario);
+            text-decoration: none;
+            margin: 0 5px;
+            transition: color 0.3s;
+        }
+        
+        footer a:hover {
+            color: var(--color-claro);
+        }
+        
+        /* Lightbox (Galería de Imagenes) */
+        .lightbox {
+            display: none; 
+            position: fixed; 
+            z-index: 5000; 
+            padding-top: 60px; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgb(0,0,0); 
+            background-color: rgba(0,0,0,0.9); 
+        }
+
+        .lightbox-content {
+            margin: auto;
+            display: block;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            object-fit: contain;
+            transition: opacity 0.3s ease;
+        }
+        
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        /* ESTILOS ESPECÍFICOS PARA TÉRMINOS Y PRIVACIDAD */
+        #terminos, #privacidad {
+            /* OCULTA AMBAS SECCIONES POR DEFECTO */
+            display: none; 
+            padding-top: 120px; 
+            background-color: var(--color-claro);
+        }
+        
+        #terminos.visible, #privacidad.visible {
+            display: block; /* ESTE ES EL ESTILO QUE EL JS APLICARÁ PARA MOSTRARLAS */
+        }
+
+
+        /* ********************************************************** */
+        /* MEDIAS QUERIES (RESPONSIVE) */
+        /* ********************************************************** */
+
+        /* Móviles (hasta 768px) */
+        @media (max-width: 768px) {
+            
+            /* Header */
+            nav {
+                 padding: 0 20px;
+            }
+            
+            .logo a {
+                 font-size: 2.2em;
+            }
+            
+            .menu-toggle {
+                display: block; 
+            }
+            
+            .nav-links {
+                position: absolute;
+                top: 0;
+                right: 0;
+                height: 100vh;
+                width: 70%; 
+                background-color: var(--color-principal);
+                flex-direction: column;
+                transform: translateX(100%); 
+                padding-top: 100px;
+                box-shadow: -2px 0 10px rgba(0,0,0,0.5);
+            }
+            
+            .nav-links.active {
+                transform: translateX(0); 
+            }
+            
+            .nav-links li {
+                margin: 20px 0;
+                text-align: center;
+                width: 100%;
+            }
+
+            .nav-links a {
+                padding: 10px 20px;
+                display: block;
+            }
+            
+            /* Hero Section */
+            .hero-content h1 {
+                font-size: 3em; 
+            }
+            .hero-content p {
+                font-size: 1em;
+            }
+            
+            /* Contenido General */
+            section {
+                padding: 40px 15px; 
+            }
+            
+            .section-title {
+                font-size: 2.2em;
+                margin-bottom: 30px;
+            }
+            
+            /* Recuadros y Contenedores */
+            .section-container {
+                padding: 25px 15px;
+            }
+
+            /* Cuadrículas */
+            .almacen-photos {
+                grid-template-columns: 1fr; 
+                gap: 15px;
+            }
+            .almacen-photos img {
+                 height: 250px;
+            }
+            
+            /* Listas de Servicios */
+            .service-list {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .service-group {
+                min-width: 100%;
+                flex-basis: 100%;
+            }
+            
+            .service-group ul {
+                grid-template-columns: 1fr; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header id="mainHeader">
+        <nav>
+            <div class="logo">
+                <img src="491464507_1383399089742950_3219670309350648670_n.png" alt="Logo El Molino"> 
+                <a href="#hero">El Molino</a>
+            </div>
+            
+            <div class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#cabanas" class="main-nav-link">Cabañas</a></li>
+                <li><a href="#almacen" class="main-nav-link">Almacén</a></li>
+                <li><a href="#buffet" class="main-nav-link">Buffet</a></li>
+                <li><a href="#servicios" class="main-nav-link">Pesca</a></li>
+                <li><a href="#ubicacion" class="main-nav-link">Ubicación</a></li>
+                <li><a href="https://wa.me/542267524958?text=%C2%A1Hola%2C%20El%20Molino!%20Quisiera%20consultar%20la%20disponibilidad%20y%20tarifas%20para%20reservar%20una%20caba%C3%B1a%2Fservicio.%20Por%20favor%2C%20ind%C3%ADquenme%20c%C3%B3mo%20proceder." 
+                       target="_blank" 
+                       class="btn-principal">Reservar Ahora</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="hero">
+        <div class="slideshow-container">
+            <div class="mySlides fade">
+                <img src="fotos/IMG-20251012-WA0012.jpg" alt="Cabaña vista exterior">
+            </div>
+            <div class="mySlides fade">
+                <img src="fotos/IMG-20251012-WA0027.jpg" alt="Exterior de las cabañas y jardín">
+            </div>
+            <div class="mySlides fade">
+                <img src="fotos/IMG-20251012-WA0016.jpg" alt="Paisaje natural de El Molino">
+            </div>
+            <div class="mySlides fade">
+                <img src="fotos/IMG-20251012-WA0017.jpg" alt="Detalle rústico de El Molino">
+            </div>
+            <div class="mySlides fade">
+                <img src="fotos/IMG-20251012-WA0018.jpg" alt="Entrada principal y fachada">
+            </div>
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Vive el encanto de El Molino</h1> 
+            <p>Hospedaje, salida de pesca y quincho buffet, todo a 7km de la laguna.</p>
+            <a href="#cabanas" class="btn-hero">Ver Cabañas</a>
+        </div>
+    </section>
+
+    <section id="cabanas">
+        <h2 class="section-title">Cabañas en Alquiler</h2>
+        
+        <div class="section-container">
+            <p style="text-align: center; margin-bottom: 25px;">Nuestras cabañas están diseñadas para el <strong>descanso y confort</strong>, ofreciendo todo lo necesario para tu estadía.</p>
+            
+            <div class="almacen-photos">
+                <img class="expandable-img" src="fotos/IMG-20251012-WA0022.jpg" alt="Vista exterior de la cabaña">
+                <img class="expandable-img" src="fotos/IMG-20251012-WA0023.jpg" alt="Terraza o vista de la cabaña">
+                <img class="expandable-img" src="fotos/IMG-20251012-WA0038.jpg" alt="Cocina y sala de estar de la cabaña">
+                <img class="expandable-img" src="fotos/IMG-20251012-WA0039.jpg" alt="Detalle interior de la cabaña">
+            </div>
+    
+            <div class="service-list">
+                <div class="service-group">
+                    <h3>Características y Comodidades</h3>
+                    <ul>
+                        <li>2 Habitaciones</li>
+                        <li>Baño principal</li>
+                        <li>60 Metros cuadrados</li>
+                        <li>Sala comedor</li>
+                        <li>Cocina equipada</li>
+                        <li>Parrilla</li>
+                        <li>Mesa exterior</li>
+                        <li>Calefacción a leña</li>
+                        <li>Directv</li>
+                        <li>Wi-Fi de alta velocidad</li>
+                        <li>Estacionamiento Gratuito</li>
+                    </ul>
+                </div>
+                <div class="service-group">
+                    <h3>Ubicación Estratégica</h3>
+                    <ul>
+                        <li>A 12km de Pinamar</li>
+                        <li>A 7km de la Laguna Salada Grande</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="almacen">
+        <h2 class="section-title">Almacén Regional</h2>
+        
+        <div class="section-container">
+             <p style="text-align: center; margin-bottom: 25px;">Encuentra productos locales, bebidas y todo lo necesario en nuestro <strong>auténtico almacén</strong>.</p>
+            
+            <div class="almacen-photos">
+                <img class="expandable-img" src="fotos/IMG-20251012-WA0026.jpg" alt="Interior del almacén 1">
+                <img class="expandable-img" src="fotos/IMG-20251012-WA0024.jpg" alt="Interior del almacén 2">
+                <img class="expandable-img" src="fotos/IMG-20251012-WA0025.jpg" alt="Interior del almacén 3">
+                <img class="expandable-img" src="fotos/IMG-20251012-WA0029.jpg" alt="Interior del almacén 4">
+                <img class="expandable-img" src="fotos/IMG-20251012-WA0021.jpg" alt="Interior del almacén 5">
+                <img class="expandable-img" src="fotos/IMG-20251012-WA0035.jpg" alt="Interior del almacén 6">
+                <img class="expandable-img" src="fotos/IMG-20251012-WA0033.jpg" alt="Interior del almacén 7">
+            </div>
+        </div>
+    </section>
+
+    <section id="buffet">
+        <h2 class="section-title">Quincho Buffet y Sabores Regionales</h2>
+        
+        <div class="section-container">
+             <p style="text-align: center; margin-bottom: 25px;">Disfruta de nuestro quincho buffet con <strong>asado</strong>, ensaladas frescas y <strong>postres caseros</strong>.</p>
+
+            <div class="video-container">
+                 <video autoplay loop muted controls playsinline>
+                    <source src="fotos/VID-20251012-WA0006.mp4" type="video/mp4">
+                    Tu navegador no soporta la etiqueta de video.
+                </video>
+            </div>
+    
+            <div class="almacen-photos">
+                <img class="expandable-img" src="fotos/IMG-20251012-WA0065.jpg" alt="Asado en el quincho buffet">
+                <img class="expandable-img" src="fotos/IMG-20251012-WA0060.jpg" alt="Mesa de productos regionales">
+                <img class="expandable-img" src="fotos/IMG-20251012-WA0057.jpg" alt="Variedad de platos y picadas">
+                <img class="expandable-img" src="fotos/IMG-20251012-WA0056.jpg" alt="Vista del área de buffet">
+                <img class="expandable-img" src="fotos/IMG-20251012-WA0054.jpg" alt="Bebidas y postres">
+                <img class="expandable-img" src="fotos/IMG-20251012-WA0049.jpg" alt="Detalle de la barra de servicio">
+                <img class="expandable-img" src="fotos/IMG-20251012-WA0046.jpg" alt="Detalles de decoración y servicio">
+                <img class="expandable-img" src="fotos/IMG-20251012-WA0045.jpg" alt="Plato principal del menú">
+            </div>
+            
+            <div class="service-list">
+                <div class="service-group">
+                    <h3>Menú Quincho</h3>
+                    <ul>
+                        <li>Bebidas</li>
+                        <li>Asado</li>
+                        <li>Ensaladas</li>
+                        <li>Postres</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="servicios">
+        <h2 class="section-title">Servicio de Pesca</h2>
+        
+        <div class="section-container">
+             <p style="text-align: center; margin-bottom: 40px;">Vive la aventura con nuestro completo <strong>servicio de pesca</strong> a solo 7km de la laguna.</p>
+            
+            <div class="almacen-photos">
+                <img class="expandable-img" src="pesca/IMG-20251014-WA0001.jpg" alt="Vista de la laguna con el bote de pesca.">
+                <img class="expandable-img" src="pesca/IMG-20251014-WA0002.jpg" alt="Pescadores a bordo del bote en la salida de pesca.">
+                <img class="expandable-img" src="pesca/IMG-20251014-WA0003.jpg" alt="Pescador mostrando su captura en la laguna.">
+                <img class="expandable-img" src="pesca/IMG-20251014-WA0007.jpg" alt="Embarcación de pesca en el agua.">
+            </div>
+            
+            <div class="service-list">
+                <div class="service-group">
+                    <h3>Detalles del Servicio</h3>
+                    <ul>
+                        <li>Alquiler de trucker</li>
+                        <li>Salidas guiadas</li>
+                        <li>Picadas a bordo</li>
+                        <li>Porciones de mojarras</li>
+                        <li>Servicio de fileteado</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="ubicacion">
+        <h2 class="section-title">Encontranos</h2>
+        <div class="section-container">
+            <div id="contacto" style="text-align: center;">
+                <p><strong>Dirección:</strong> Gral. Juan Madariaga, Provincia de Buenos Aires, Argentina</p>
+                <p><strong>Plus Code:</strong> X2W9+7H</p>
+                <p>
+                    <strong>Teléfono:</strong> 
+                    <a href="https://wa.me/542267524958?text=%C2%A1Hola%2C%20El%20Molino!%20Quisiera%20consultar%20la%20disponibilidad%20y%20tarifas%20para%20reservar%20una%20caba%C3%B1a%2Fservicio.%20Por%20favor%2C%20ind%C3%ADquenme%20c%C3%B3mo%20proceder." 
+                       target="_blank" 
+                       class="whatsapp-link">
+                        <i class="fab fa-whatsapp"></i> +54 2267 52-4958 (WhatsApp)
+                    </a>
+                </p>
+                
+                <div class="map-container" style="margin-top: 30px;">
+                    <iframe 
+                        src="https://maps.google.com/maps?q=-37.0043125,-56.9810625&z=15&output=embed" 
+                        width="100%" 
+                        height="450" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="terminos" class="policy-section">
+        <h2 class="section-title">Términos y Condiciones</h2>
+        <div class="section-container policy-content" style="background-color: #fcfcfc;">
+            
+            <h3>1. Aceptación de los Términos</h3>
+            <p>Al reservar o utilizar los servicios de El Molino (Cabañas, Almacén, Buffet, Servicio de Pesca) usted acepta estos Términos y Condiciones, obligándose a cumplirlos. Estos términos son aplicables a todos los huéspedes y visitantes.</p>
+
+            <h3>2. Reservas y Pagos</h3>
+            <ul>
+                <li><strong>Confirmación:</strong> Toda reserva se considera confirmada una vez que se ha abonado el porcentaje de seña acordado, no reembolsable en caso de cancelación por parte del huésped.</li>
+                <li><strong>Modalidad de Pago:</strong> Aceptamos transferencias bancarias y efectivo. El saldo restante debe abonarse al momento del check-in.</li>
+                <li><strong>Precios:</strong> Los precios de los servicios de alojamiento y pesca están sujetos a cambios sin previo aviso, salvo para las reservas ya confirmadas.</li>
+            </ul>
+
+            <h3>3. Política de Cancelación y Modificación</h3>
+            <ul>
+                <li><strong>Cancelación por el Huésped:</strong> La seña no es reembolsable. Si la cancelación se realiza con menos de 72 horas del check-in, se podrá retener el 100% del valor total de la estadía o servicio contratado.</li>
+                <li><strong>Modificación de Fechas:</strong> Sujeta a disponibilidad y puede generar un ajuste de tarifa, especialmente en temporada alta. Se debe solicitar con al menos 7 días de antelación.</li>
+            </ul>
+
+            <h3>4. Uso de las Cabañas y Normas de Convivencia</h3>
+            <ul>
+                <li><strong>Horarios:</strong> Check-in a partir de las 14:00hs. Check-out antes de las 10:00hs.</li>
+                <li><strong>Capacidad Máxima:</strong> La capacidad máxima de cada cabaña debe respetarse estrictamente. El ingreso de personas adicionales no informadas está prohibido.</li>
+                <li><strong>Mascotas:</strong> Las mascotas son bienvenidas bajo previa consulta y aprobación, y deben permanecer con correa en las áreas comunes. El dueño es responsable de cualquier daño o molestia.</li>
+                <li><strong>Daños:</strong> El huésped es responsable de los daños causados a la cabaña o a las instalaciones de El Molino durante su estadía.</li>
+                <li><strong>Servicio de Pesca:</strong> Los usuarios del servicio de pesca deben seguir las indicaciones del guía y utilizar los equipos de manera responsable. El Molino no se hace responsable por accidentes causados por la negligencia del usuario.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="privacidad" class="policy-section">
+        <h2 class="section-title">Política de Privacidad</h2>
+        <div class="section-container policy-content" style="background-color: #fcfcfc;">
+            
+            <h3>1. Información Recopilada</h3>
+            <p>El Molino recopila información necesaria para procesar las reservas y mejorar la experiencia del cliente. Esto incluye:</p>
+            <ul>
+                <li>Nombre completo y DNI o Pasaporte.</li>
+                <li>Información de contacto (teléfono, correo electrónico).</li>
+                <li>Fechas de reserva y servicios contratados.</li>
+            </ul>
+
+            <h3>2. Uso de la Información</h3>
+            <p>Utilizamos la información recopilada exclusivamente para:</p>
+            <ul>
+                <li>Gestionar y confirmar su reserva de cabaña o servicio de pesca.</li>
+                <li>Comunicarnos con usted sobre su estadía o consultas.</li>
+                <li>Cumplir con las obligaciones legales y de seguridad locales.</li>
+                <li>Mejorar nuestros servicios y ofertas.</li>
+            </ul>
+
+            <h3>3. Compartir Información</h3>
+            <p>El Molino se compromete a no vender, alquilar ni divulgar su información personal a terceros, excepto en los siguientes casos:</p>
+            <ul>
+                <li>Si es requerido por ley o por orden judicial.</li>
+                <li>Para proteger los derechos, la propiedad o la seguridad de El Molino, nuestros clientes u otros.</li>
+            </ul>
+
+            <h3>4. Seguridad de los Datos</h3>
+            <p>Adoptamos medidas de seguridad administrativas, técnicas y físicas para proteger la información personal contra pérdida, robo y acceso no autorizado. Sin embargo, ninguna transmisión de datos por Internet es 100% segura.</p>
+            
+            <h3>5. Cookies y Datos Web</h3>
+            <p>Nuestro sitio web puede utilizar cookies para mejorar la navegación y analizar el tráfico web de forma anónima (por ejemplo, Google Analytics). Al usar nuestro sitio, usted consiente el uso de estas cookies.</p>
+        </div>
+    </section>
+    <footer>
+        <p>© 2025 El Molino. Todos los derechos reservados.</p>
+        <p style="margin-top: 5px;">Diseño web de Techne Nest</p>
+        <div class="footer-links">
+            <a href="#terminos" class="policy-link">Términos y Condiciones</a> |
+            <a href="#privacidad" class="policy-link">Política de Privacidad</a> |
+            <a href="https://www.instagram.com/elmolino_cabanas/" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+        </div>
+    </footer>
+
+    <div id="myLightbox" class="lightbox">
+        <span class="close" id="closeLightbox">×</span> 
+        <img class="lightbox-content" id="expandedImg">
+    </div>
+
+    <script>
+        // **********************************************************
+        // JS para Carrusel, Header (Fijo), Lightbox y Menú Móvil
+        // **********************************************************
+        
+        // 5. Gestión de Visibilidad de Políticas Legales
+        const policySections = document.querySelectorAll('.policy-section');
+        const policyLinks = document.querySelectorAll('.policy-link');
+        const mainLinks = document.querySelectorAll('.main-nav-link, .logo a, .btn-hero');
+
+        function hideAllPolicies() {
+            policySections.forEach(section => {
+                section.classList.remove('visible');
+            });
+        }
+        
+        // Función para manejar el clic en los enlaces de Política/Términos
+        policyLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault(); 
+                
+                // Ocultar todas las secciones de política primero
+                hideAllPolicies(); 
+                
+                // Determinar qué sección mostrar
+                const targetId = link.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                
+                if (targetSection) {
+                    targetSection.classList.add('visible');
+                    
+                    // Hacer scroll a la sección mostrada
+                    setTimeout(() => {
+                        targetSection.scrollIntoView({ behavior: 'smooth' });
+                    }, 10);
+                }
+            });
+        });
+
+        // Función para ocultar las políticas cuando se navega a una sección principal
+        mainLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hideAllPolicies();
+            });
+        });
+
+
+        // 1. Carrusel de Héroe (Slideshow)
+        let slideIndex = 0;
+        showSlides();
+
+        function showSlides() {
+            let i;
+            let slides = document.getElementsByClassName("mySlides");
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) {slideIndex = 1}
+            slides[slideIndex-1].style.display = "block";
+            slides[slideIndex-1].classList.add("fade");
+            setTimeout(showSlides, 4000); 
+        }
+
+        // 2. Efecto Header Fijo (Restaurado)
+        window.onscroll = function() {scrollFunction()};
+
+        function scrollFunction() {
+          const header = document.getElementById("mainHeader");
+          // Si hace scroll más de 50px, añade la clase 'scrolled'
+          if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+            header.classList.add("scrolled");
+          } else {
+            header.classList.remove("scrolled");
+          }
+        }
+
+        // 3. Funcionalidad del Menú Móvil (Hamburguesa)
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        const links = navLinks.querySelectorAll('a');
+
+        function toggleMenu() {
+            navLinks.classList.toggle('active');
+            const icon = menuToggle.querySelector('i');
+            if (navLinks.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+                document.body.style.overflow = 'hidden'; // Bloquea el scroll del body
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+                document.body.style.overflow = 'auto'; // Restaura el scroll del body
+            }
+        }
+
+        menuToggle.addEventListener('click', toggleMenu);
+
+        // Cierra el menú al hacer clic en un enlace (solo en móvil)
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768 && navLinks.classList.contains('active')) { 
+                    toggleMenu(); 
+                }
+            });
+        });
+        
+        // 4. Lightbox (Expansión de imagen)
+        const lightbox = document.getElementById("myLightbox");
+        const expandedImg = document.getElementById("expandedImg");
+        const closeBtn = document.getElementById("closeLightbox");
+        const images = document.getElementsByClassName("expandable-img");
+
+        function closeLightbox() {
+            lightbox.style.display = "none";
+            document.body.style.overflow = 'auto'; // Restaura el scroll
+        }
+        
+        for (let i = 0; i < images.length; i++) {
+            images[i].onclick = function() {
+                lightbox.style.display = "block";
+                expandedImg.src = this.src; 
+                document.body.style.overflow = 'hidden'; // Bloquea el scroll
+            }
+        }
+
+        closeBtn.onclick = closeLightbox;
+
+        lightbox.onclick = function(event) {
+            if (event.target === lightbox) {
+                closeLightbox();
+            }
+        }
+    </script>
+
+</body>
+</html>
