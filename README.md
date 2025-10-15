@@ -4,7 +4,7 @@
 
 ## 🌟 Descripción del Proyecto
 
-**El Molino** es el sitio web oficial para un complejo turístico y de servicios ubicado a 7km de la Laguna Salada Grande, General Madariaga, Provincia de Buenos Aires. El sitio está diseñado como una landing page informativa y de contacto, optimizada para móviles (responsive design) y con enfoque en la conversión (reservas por WhatsApp).
+**El Molino** es el sitio web oficial para un complejo turístico y de servicios ubicado a 7km de la Laguna Salada Grande, General Madariaga, Provincia de Buenos Aires. El sitio está diseñado como una landing page informativa y de contacto, optimizada para móviles  y con enfoque en la conversión (reservas por WhatsApp).
 
 El sitio presenta cuatro pilares de servicio:
 1.  **Cabañas:** Alojamiento de confort para hasta 6 personas.
