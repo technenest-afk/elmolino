@@ -1,5 +1,5 @@
 # 🏞️ El Molino - Cabañas y Servicios en Laguna Salada Grande
-Juan Pablo 
+
 
 
 **URL del Proyecto:** `https://technenest-afk.github.io/elmolino/`
@@ -27,8 +27,10 @@ Este proyecto es una solución de página única (SPA) desarrollada con tecnolog
 
 Este es un proyecto estático que no requiere instalación de dependencias externas.
 
-### 1. Clonar el Repositorio
+## diseñado por: Juan Pablo 
 
-```bash
+### 1. Clonar el Repositorio
+```bash 
 git clone [https://github.com/technenest-afk/elmolino.git](https://github.com/technenest-afk/elmolino.git)
 cd elmolino
+
